@@ -2,25 +2,24 @@
 Python Code to Extract Web Articles as Paragraphs
 By Karl Brown ( thekarlbrown ) 17th June 2015
 
-Utilizing LXML, BeautifulSoup and Requests Libraries I developed an algorithm to clean and format HTML into paragraphs. 
-This is part of my bigger project, Divination, which performs Market Analysis using News Articles, Stock Data, Neural Networks, and Genetic Algorithms
+Utilizing the BeautifulSoup and Requests Libraries I developed an algorithm to clean and format HTML into paragraphs. 
+This is part of my bigger project, Divination, which performs Market Analysis using News Articles, Stock Data, Neural Networks, and Genetic Algorithms.
 Most news sites can be scraped using this approach I designed myself.
 You first identify the section with the primary text, then mention any areas inside it to the algorithm
 Headings, tweets, and paragraph spacing is also removed.
 '''
 
 import requests
-#from lxml import html
 from bs4 import BeautifulSoup
 
 """
 Prints out contents of News Article as paragraph
 
 articleURL - HTTP (no HTTPS) link to the article
-coreIdentifier - id or class of Tag containing article text
-coreIdentifierIsID - boolean identifying if identifier is id or not
-idsToDecompose - List (default []) of known id's inside identifier tag to remove for specific site
-classesToDecompose - List (default []) of known class's inside identifier tag to remove for specific site
+coreIdentifier - id or class of HTML tag containing article text
+coreIdentifierIsID - boolean specifying if identifier is id or not
+idsToDecompose - List (default []) of known id's inside identified HTML tag to remove for specific site
+classesToDecompose - List (default []) of known class's inside identified HTML tag to remove for specific site
 """
 def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose,classesToDecompose):
 	# Obtain the HTML tree
@@ -53,10 +52,6 @@ def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose
  	#Output formatted text	
 	print " ".join(soup.text.split())
 	print "\t"
-
-	#Output soup
-	#print soup.prettify
-	#print "\t"
 
 # Example targets
 parsedArticle('http://arstechnica.com/apple/2015/06/apple-to-ios-devs-ipv6-only-cell-service-is-coming-soon-get-your-apps-ready/','article-content clearfix',False,[],['intro-image image center full-width'])
