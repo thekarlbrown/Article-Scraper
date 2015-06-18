@@ -1,12 +1,12 @@
 '''
 Python Code to Extract Web Articles as Paragraphs
-By Karl Brown ( thekarlbrown ) 17th June 2015
+By Karl Brown ( thekarlbrown ) 18th June 2015
 
 Utilizing the BeautifulSoup and Requests Libraries I developed an algorithm to clean and format HTML into paragraphs. 
 This is part of my bigger project, Divination, which performs Market Analysis using News Articles, Stock Data, Neural Networks, and Genetic Algorithms.
 Most news sites can be scraped using this approach I designed myself.
 You first identify the section with the primary text, then mention any areas inside it to the algorithm
-Headings, tweets, and paragraph spacing is also removed.
+Headings, tweets, spans and paragraph spacing is also removed. Be Careful for content loss with span removal.
 '''
 
 import requests
@@ -31,13 +31,16 @@ def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose
 	# Filter out data we are interested in
 	soup = soup.find(id=coreIdentifier) if coreIdentifierIsID else soup.find(class_=coreIdentifier)
 
-	# Remove junk tags included in target as identified by id or class
- 	for idToRemove in idsToDecompose:
- 		soup.find(id=idToRemove).decompose()
- 	for classToRemove in classesToDecompose:
- 		soup.find(class_=classToRemove).decompose()
+ 	# Remove junk tags included in target as identified by id or class
+	for idToRemove in idsToDecompose:
+		if soup.find(id=idToRemove) is not None:
+			soup.find(id=idToRemove).decompose()
+	for classToRemove in classesToDecompose:
+		if soup.find(class_=classToRemove) is not None:
+			soup.find(class_=classToRemove).decompose()
 
- 	#Removes any headings if present
+
+ 	# Removes any headings if present
  	for tags in soup.find_all('h1'):
  		soup.find('h1').decompose()
  	for tags in soup.find_all('h2'):
@@ -45,7 +48,12 @@ def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose
  	for tags in soup.find_all('h3'):
  		soup.find('h3').decompose()
 
- 	#Remove any twitter tweets attached in articles
+ 	# Removes span tags that can hold ad's, risks content loss
+	for tags in soup.find_all('span'):
+		if soup.find('span') is not None:
+			soup.find('span').decompose()
+
+ 	# Remove any twitter tweets attached in articles
  	for tweets in soup.find_all( class_='twitter-tweet'):
  		soup.find(class_='twitter-tweet').decompose()
 
