@@ -6,7 +6,7 @@ Utilizing the BeautifulSoup and Requests Libraries I developed an algorithm to c
 This is part of my bigger project, Divination, which performs Market Analysis using News Articles, Stock Data, Neural Networks, and Genetic Algorithms.
 Most news sites can be scraped using this approach I designed myself.
 You first identify the section with the primary text, then mention any areas inside it to the algorithm
-Headings, tweets, spans and paragraph spacing is also removed. Be Careful for content loss with span removal.
+Headings, tweets and paragraph spacing is also removed.
 '''
 
 import requests
@@ -47,11 +47,6 @@ def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose
  		soup.find('h2').decompose()
  	for tags in soup.find_all('h3'):
  		soup.find('h3').decompose()
-
- 	# Removes span tags that can hold ad's, risks content loss
-	for tags in soup.find_all('span'):
-		if soup.find('span') is not None:
-			soup.find('span').decompose()
 
  	# Remove any twitter tweets attached in articles
  	for tweets in soup.find_all( class_='twitter-tweet'):
