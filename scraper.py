@@ -52,8 +52,8 @@ def parsedArticle (articleURL, coreIdentifier, coreIdentifierIsID,idsToDecompose
  	for tweets in soup.find_all( class_='twitter-tweet'):
  		soup.find(class_='twitter-tweet').decompose()
 
- 	#Output formatted text	
-	print " ".join(soup.text.split())
+ 	#Output formatted text removing smart quotes 
+	print " ".join(soup.text.split()).replace(u"\u2018", "").replace(u"\u2019", "").replace(u"\u201c","").replace(u"\u201d", "").replace(u"\u2014"," - ")
 	print "\t"
 
 # Example targets
